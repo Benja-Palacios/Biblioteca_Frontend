@@ -1,1 +1,49 @@
-<p>autor works!</p>
+<div
+  class="mat-elevation-z2"
+  style="
+    width: 30%;
+    padding: 30px;
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+  "
+>
+  <form [formGroup]="formAutorLibro">
+    <div class="flex">
+      <mat-form-field>
+        <mat-label>Nombre: </mat-label>
+        <input matInput formControlName="nombre" />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field>
+        <mat-label>Apellidos: </mat-label>
+        <input matInput formControlName="apellido" />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field>
+        <mat-label>Fecha</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="fechaNacimiento"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field>
+        <mat-label>Imagen</mat-label>
+        <ngx-mat-file-input formControlName="imagen"></ngx-mat-file-input>
+      </mat-form-field>
+    </div>
+
+    <div class="flex">
+      <button mat-flat-button color="primary" (click)="guardar()">
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

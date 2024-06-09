@@ -5,23 +5,23 @@ import { Autor } from '../Models/Autor';
 import { ResponseAPI } from '../Models/ResponseAPI';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AutorLibroService {
   private http = inject(HttpClient);
-  private apiURL:string = appsettings.apiUrl + "Autor"
+  private apiURL: string = appsettings.apiUrl + 'Autor';
 
-  constructor() { }
+  constructor() {}
 
-  lista(){
-    return this.http.get<Autor[]>(this.apiURL)
+  lista() {
+    return this.http.get<Autor[]>(this.apiURL);
   }
 
-  obtener(id:number){
-    return this.http.get<Autor[]>(`${this.apiURL}/${id}`)
+  obtener(id: number) {
+    return this.http.get<Autor[]>(`${this.apiURL}/${id}`);
   }
 
-  crear(objeto:Autor){
-    return this.http.post<ResponseAPI>(this.apiURL,objeto)
+  crear(formData: FormData) {
+    return this.http.post<ResponseAPI>(this.apiURL, formData);
   }
 }

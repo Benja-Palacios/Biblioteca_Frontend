@@ -1,7 +1,7 @@
-export interface Autor{
-    AutorLibroId : number;
-    nombre : string;
-    apellido : string;
-    fechaNacimiento : Date;
-    imagenes?: string;
+export interface Autor {
+  nombre: string;
+  apellido: string;
+  fechaNacimiento: Date;
+  imagenes?: string;
+  imagen: File;
 }
