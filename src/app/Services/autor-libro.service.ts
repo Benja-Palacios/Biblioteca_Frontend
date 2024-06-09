@@ -17,8 +17,8 @@ export class AutorLibroService {
     return this.http.get<Autor[]>(this.apiURL);
   }
 
-  obtener(id: number) {
-    return this.http.get<Autor[]>(`${this.apiURL}/${id}`);
+  obtener(id: string) {
+    return this.http.get<Autor>(`${this.apiURL}/${id}`);  // Cambiado a Autor
   }
 
   crear(formData: FormData) {
