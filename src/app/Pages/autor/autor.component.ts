@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import {
   FormBuilder,
   FormGroup,
@@ -26,6 +27,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMatFileInputModule,
+    MatIconModule
   ],
   templateUrl: './autor.component.html',
   styleUrls: ['./autor.component.css'],
@@ -72,5 +74,9 @@ export class AutorComponent {
     } else {
       console.warn('Formulario no válido');
     }
+  }
+
+  volver(){
+    this.router.navigate(['/']);
   }
 }

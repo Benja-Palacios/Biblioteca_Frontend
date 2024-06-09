@@ -1,40 +1,43 @@
-<div
-  class="mat-elevation-z2"
-  style="
+<div class="mat-elevation-z2" style="
     width: 30%;
     padding: 30px;
     margin: 50px auto;
     display: flex;
-    justify-content: center;
-  "
->
-  <form [formGroup]="formAutorLibro">
-    <div class="flex">
-      <mat-form-field>
+    flex-direction: column; /* Alinear los elementos verticalmente */
+  ">
+  <div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <mat-icon>persona</mat-icon>
+    <h2 style="margin-left: 10px;">Nuevo autor</h2>
+  </div>
+
+  <form [formGroup]="formAutorLibro" style="display: flex; flex-direction: column;">
+    <div class="flex" style="margin-bottom: 20px;">
+      <mat-form-field style="width: 100%;">
         <mat-label>Nombre: </mat-label>
         <input matInput formControlName="nombre" />
+        <mat-icon matSuffix>check</mat-icon>
       </mat-form-field>
     </div>
-    <div class="flex">
-      <mat-form-field>
+    
+    <div class="flex" style="margin-bottom: 20px;">
+      <mat-form-field style="width: 100%;">
         <mat-label>Apellidos: </mat-label>
         <input matInput formControlName="apellido" />
+        <mat-icon matSuffix>check</mat-icon>
       </mat-form-field>
     </div>
-    <div class="flex">
-      <mat-form-field>
+    
+    <div class="flex" style="margin-bottom: 20px;">
+      <mat-form-field style="width: 100%;">
         <mat-label>Fecha</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          formControlName="fechaNacimiento"
-        />
+        <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="flex">
-      <mat-form-field>
+    
+    <div class="flex" style="margin-bottom: 20px;">
+      <mat-form-field style="width: 100%;">
         <mat-label>Imagen</mat-label>
         <ngx-mat-file-input formControlName="imagen"></ngx-mat-file-input>
       </mat-form-field>
@@ -43,6 +46,9 @@
     <div class="flex">
       <button mat-flat-button color="primary" (click)="guardar()">
         Guardar
+      </button>
+      <button mat-flat-button color="warn" style="margin-left: 10px;" (click)="volver()">
+        Cancelar
       </button>
     </div>
   </form>

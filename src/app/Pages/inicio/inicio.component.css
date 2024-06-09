@@ -1,0 +1,25 @@
+.lista-tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .lista-tarjetas mat-card {
+    width: calc(33.33% - 10px);
+    margin-bottom: 20px;
+  }
+
+  .autor-imagen {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  .autor-imagen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    overflow: hidden;
+  }
