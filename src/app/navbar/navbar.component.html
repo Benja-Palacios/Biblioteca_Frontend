@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="fixed-toolbar">
+  <span>Biblioteca</span>
+  <span class="spacer"></span>
+  <!-- Espaciador flexible para empujar los botones hacia la derecha -->
+  <div>
+    <button mat-raised-button color="accent" [matMenuTriggerFor]="autorMenu">
+      Autor
+    </button>
+    <span class="button-gap"></span>
+    <!-- Espacio entre botones -->
+    <button mat-raised-button color="accent" [matMenuTriggerFor]="libroMenu">
+      Libro
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-menu #autorMenu="matMenu" yPosition="below">
+  <button mat-menu-item (click)="verAutor()">
+    <mat-icon>visibility</mat-icon> Ver Autor
+  </button>
+  <button mat-menu-item (click)="nuevoAutor()">
+    <mat-icon>person_add</mat-icon>Agregar Autor
+  </button>
+</mat-menu>
+
+<mat-menu #libroMenu="matMenu" yPosition="below">
+  <button mat-menu-item (click)="verLibro()">
+    <mat-icon>visibility</mat-icon> Ver Libro
+  </button>
+  <button mat-menu-item (click)="nuevoLibro()">
+    <mat-icon>library_add</mat-icon> Agregar Libro
+  </button>
+</mat-menu>
