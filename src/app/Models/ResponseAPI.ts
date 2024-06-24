@@ -1,3 +1,3 @@
-export interface ResponseAPI{
-    isSuccess : Boolean;
+export interface ResponseAPI {
+  isSuccess: Boolean;
 }

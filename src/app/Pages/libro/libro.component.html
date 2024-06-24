@@ -1,0 +1,59 @@
+<div
+  class="mat-elevation-z2"
+  style="
+    width: 30%;
+    padding: 30px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column; /* Alinear los elementos verticalmente */
+  "
+>
+  <div style="display: flex; align-items: center; margin-bottom: 20px">
+    <mat-icon>book</mat-icon>
+    <h2 style="margin-left: 10px">Nuevo Libro</h2>
+  </div>
+
+  <form [formGroup]="formLibro" style="display: flex; flex-direction: column">
+    <div class="flex" style="margin-bottom: 20px">
+      <mat-form-field style="width: 100%">
+        <mat-label>Titulo: </mat-label>
+        <input matInput formControlName="titulo" />
+        <mat-icon matSuffix>check</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex" style="margin-bottom: 20px">
+      <mat-form-field style="width: 100%">
+        <mat-label>Fecha Publicacion</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="fechaPublicacion"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="flex" style="margin-bottom: 20px">
+      <mat-form-field style="width: 100%">
+        <mat-label>Autor: </mat-label>
+        <input matInput formControlName="autorLibro" />
+        <mat-icon matSuffix>check</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex">
+      <button mat-flat-button color="primary" (click)="guardar()">
+        Guardar
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        style="margin-left: 10px"
+        (click)="volver()"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,15 @@
+.fixed-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ajusta el índice z si es necesario */
+}
+
+.spacer {
+  flex: 1 1 auto; /* Espaciador flexible para empujar los botones hacia la derecha */
+}
+
+.button-gap {
+  margin-left: 8px; /* Espacio entre botones */
+}
