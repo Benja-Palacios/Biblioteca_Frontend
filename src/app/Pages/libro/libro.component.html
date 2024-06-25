@@ -37,7 +37,13 @@
     <div class="flex" style="margin-bottom: 20px">
       <mat-form-field style="width: 100%">
         <mat-label>Autor: </mat-label>
-        <input matInput formControlName="autorLibro" />
+        <mat-select formControlName="autorLibro">
+          <mat-option
+            *ngFor="let autor of listaAutor"
+            [value]="autor.autorLibroGuid"
+            >{{ autor.nombre }} {{ autor.apellido }}</mat-option
+          >
+        </mat-select>
         <mat-icon matSuffix>check</mat-icon>
       </mat-form-field>
     </div>

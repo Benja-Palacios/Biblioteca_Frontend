@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { LibroService } from '../../Services/libro.service';
+import { AutorLibroService } from '../../Services/autor-libro.service';
 import { Autor } from '../../Models/Autor';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
@@ -28,23 +32,38 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     MatNativeDateModule,
     NgxMatFileInputModule,
     MatIconModule,
+    MatSelectModule,
+    FormsModule,
+    CommonModule,
   ],
   templateUrl: './libro.component.html',
   styleUrl: './libro.component.css',
+  providers: [AutorLibroService, LibroService],
 })
-export class LibroComponent {
-  private libroService = inject(LibroService);
-  public formBuild = inject(FormBuilder);
+export class LibroComponent implements OnInit {
+  listaAutor: Autor[] = [];
+  formLibro: FormGroup;
 
-  public formLibro: FormGroup = this.formBuild.group({
-    titulo: ['', Validators.required],
-    fechaPublicacion: ['', Validators.required],
-    autorLibro: ['', Validators.required],
-  });
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private autorService: AutorLibroService,
+    private libroService: LibroService
+  ) {
+    this.formLibro = this.formBuilder.group({
+      titulo: ['', Validators.required],
+      fechaPublicacion: ['', Validators.required],
+      autorLibro: ['', Validators.required],
+    });
+  }
 
-  constructor(private router: Router) {}
-
-  guardar() {
+  ngOnInit(): void {
+    this.obtenerAutor();
+  }
+  /**
+   * Guardar Libro
+   */
+  guardar(): void {
     if (this.formLibro.valid) {
       const fechaPublicacion: Date = this.formLibro.value.fechaPublicacion;
       const fechaPublicacionFormateada: string = fechaPublicacion
@@ -70,8 +89,24 @@ export class LibroComponent {
       console.warn('Formulario no válido');
     }
   }
+  /**
+   * Obtener lista de los autores
+   */
+  obtenerAutor(): void {
+    this.autorService.lista().subscribe({
+      next: (data) => {
+        if (data.length > 0) {
+          this.listaAutor = data;
+          console.log('Autores obtenidos:', data);
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener autores', err);
+      },
+    });
+  }
 
-  volver() {
+  volver(): void {
     this.router.navigate(['/']);
   }
 }
