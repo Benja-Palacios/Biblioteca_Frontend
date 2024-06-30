@@ -53,9 +53,10 @@ h1[mat-dialog-title] {
 
 /* Estilos para cada tarjeta de libro */
 .libro-card {
+  color: black;
   width: 30%;
   margin: 15px;
-  background-color: #9b6643d7;
+  background-color: #F2F2F2;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;

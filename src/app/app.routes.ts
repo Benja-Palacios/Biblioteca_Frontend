@@ -9,6 +9,5 @@ export const routes: Routes = [
     {path:'',component:InicioComponent},
     {path:'inicio',component:InicioComponent},
     {path:'autor/:id',component:AutorComponent},
-    {path:'libro/:id',component:LibroComponent},
-    {path:'verlibro',component:VerLibroComponent}
+    {path:'libro/:id',component:LibroComponent}
 ];

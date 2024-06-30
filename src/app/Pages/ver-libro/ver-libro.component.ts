@@ -12,22 +12,27 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, FormsModule],
   templateUrl: './ver-libro.component.html',
-  styleUrl: './ver-libro.component.css'
+  styleUrl: './ver-libro.component.css',
 })
 export class VerLibroComponent {
   libros: libro[] = [];
   public searchId: string | null = null;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private libroService: LibroService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private libroService: LibroService
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.obtenerLibros();
   }
 
-  obtenerLibros(){
-    this.libroService.lista().subscribe((libros: libro[]) =>{
-      this.libros = libros.filter(libro => libro.autorLibro === this.data.autorLibroGuid)
-    })
+  obtenerLibros() {
+    this.libroService.lista().subscribe((libros: libro[]) => {
+      this.libros = libros.filter(
+        (libro) => libro.autorLibro === this.data.autorLibroGuid
+      );
+    });
   }
 
   buscarAutor() {
@@ -46,5 +51,4 @@ export class VerLibroComponent {
       this.obtenerLibros();
     }
   }
-
 }

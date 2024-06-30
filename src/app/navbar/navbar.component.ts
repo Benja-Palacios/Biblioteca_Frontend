@@ -23,7 +23,4 @@ export class NavbarComponent {
   nuevoLibro() {
     this.router.navigate(['/libro', 0]);
   }
-  verLibro() {
-    this.router.navigate(['/verlibro']);
-  }
 }
