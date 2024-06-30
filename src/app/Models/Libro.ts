@@ -1,6 +1,7 @@
 export interface libro {
+    autorLibro?: string,
     titulo: string;
-    fechaNacimiento: Date;
+    fechaPublicacion: Date;
     autor: string;
   }
   

@@ -12,16 +12,36 @@
     </div>
     <hr>
     <div class="lista-tarjetas">
-      <mat-card style="width: 30%;" *ngFor="let autor of listaAutor">
-        <div class="autor-imagen-container">
-          <img *ngIf="autor.imagenes" [src]="'data:image/png;base64,' + autor.imagenes" alt="Autor"
-            class="autor-imagen">
+      <ng-container *ngIf="listaAutor.length > 0; else noAutores">
+        <mat-card style="width: 30%;" *ngFor="let autor of listaAutor">
+          <div class="autor-imagen-container">
+            <img *ngIf="autor.imagenes" [src]="'data:image/png;base64,' + autor.imagenes" alt="Autor" class="autor-imagen">
+            <span *ngIf="!autor.imagenes" class="mensaje-no-imagen" style="width: 100%; text-align: center;">
+              <iframe src="https://lottie.host/embed/c1d05428-ffbc-41ff-b05b-965781f66a78/MhIualRMKm.json" width="30%" height="100px" frameborder="0"></iframe>
+            </span>
+
         </div>
-        <mat-card-content>
-          <p>{{ autor.nombre }} {{ autor.apellido }}</p>
-          <p>{{ autor.fechaNacimiento | date }}</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+          <mat-card-content>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <p>{{ autor.nombre }} {{ autor.apellido }}</p>
+                <p>{{ autor.fechaNacimiento | date }}</p>
+              </div>
+              <button mat-mini-fab aria-label="" (click)="openDialog(autor.autorLibroGuid)">
+                <mat-icon>menu</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+      <ng-template #noAutores>
+        <div class="lottie-container" style="width: 100%; text-align: center;">
+          <div style="display: inline-block;">
+              <iframe src="https://lottie.host/embed/a6cd3657-88c5-4d12-a3ff-0a4b7f4ebee0/whXZwmu7lv.json" width="100%" height="250px" frameborder="0"></iframe>
+          </div>
+      </div>      
+           
+      </ng-template>
+    </div>    
   </mat-card-content>
 </mat-card>

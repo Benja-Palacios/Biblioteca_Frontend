@@ -1,0 +1,25 @@
+/* app.component.css */
+
+/* Definir variables CSS para los colores personalizados */
+:root {
+    --custom-primary-color: #607d8b; /* Blue Grey */
+    --custom-accent-color: #ffc107; /* Amber */
+    --custom-warn-color: #ff5722; /* Deep Orange */
+  }
+  
+  /* Aplicar las variables CSS a las clases */
+  .custom-primary {
+    color: var(--custom-primary-color);
+    background-color: var(--custom-primary-color);
+  }
+  
+  .custom-accent {
+    color: var(--custom-accent-color);
+    background-color: var(--custom-accent-color);
+  }
+  
+  .custom-warn {
+    color: var(--custom-warn-color);
+    background-color: var(--custom-warn-color);
+  }
+  

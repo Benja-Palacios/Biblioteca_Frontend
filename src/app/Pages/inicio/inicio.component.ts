@@ -8,6 +8,8 @@ import { AutorLibroService } from '../../Services/autor-libro.service';
 import { Autor } from '../../Models/Autor';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { VerLibroComponent } from '../ver-libro/ver-libro.component';
 
 @Component({
   selector: 'app-inicio',
@@ -34,7 +36,7 @@ export class InicioComponent {
   ];
   public searchId: string | null = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public dialog: MatDialog) {
     this.obtenerAutor();
   }
 
@@ -66,5 +68,21 @@ export class InicioComponent {
       // Si el campo de búsqueda está vacío, cargar todos los autores
       this.obtenerAutor();
     }
+  }
+
+  openDialog(autorLibroGuid : string | undefined): void {
+    if (!autorLibroGuid) {
+      console.error('autorLibroGuid es undefined')
+      return;
+    }
+    const dialogRef = this.dialog.open(VerLibroComponent, {
+      height: '400px',
+      width: '600px',
+      data: {autorLibroGuid}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El modal ha sido cerrado' + autorLibroGuid);
+    });
   }
 }

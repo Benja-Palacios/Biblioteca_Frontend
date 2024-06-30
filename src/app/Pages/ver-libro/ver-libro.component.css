@@ -1,0 +1,89 @@
+/* Estilos para el título del diálogo */
+h1[mat-dialog-title] {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000000;
+}
+
+/* Contenedor para el input de búsqueda y el botón */
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0 20px; /* Ajuste de márgenes para dar espacio en los lados */
+}
+
+/* Estilos para el input de búsqueda */
+.search-input {
+  flex: 1;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  padding: 0 40px 0 20px; /* Espacio para el botón dentro del input */
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+/* Estilos para el botón de búsqueda dentro del input */
+.search-button {
+  position: absolute;
+  right: 20px; /* Ajuste para que no quede pegado al borde del contenedor */
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos para el botón de búsqueda */
+.search-button mat-icon {
+  color: #1976d2;
+}
+
+/* Estilos para la lista de tarjetas */
+.lista-tarjetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Estilos para cada tarjeta de libro */
+.libro-card {
+  width: 30%;
+  margin: 15px;
+  background-color: #9b6643d7;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-image: url('../../../assets/img/portadaLibro.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.libro-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 8;
+}
+
+/* Estilos para el contenedor con scroll */
+.scroll-container {
+  overflow-y: auto; /* Asegura que el contenido con scroll vertical sea visible */
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a;
+  border-radius: 5px;
+}

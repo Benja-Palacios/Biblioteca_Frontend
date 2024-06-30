@@ -1,1 +1,48 @@
-<p>ver-libro works!</p>
+<div mat-dialog-content class="scroll-container">
+    <h1 mat-dialog-title style="margin: 10px; display: flex; align-items: center;">
+      <mat-icon>collections_bookmark</mat-icon> Libros
+    </h1>
+    <div class="search-container" style="margin-top: 20px;">
+      <input
+        matInput
+        [(ngModel)]="searchId"
+        placeholder="Ingrese Nombre"
+        class="search-input"
+      />
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="buscarAutor()"
+        class="search-button"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="libros.length > 0; else noLibros">
+      <div class="lista-tarjetas">
+        <mat-card *ngFor="let libro of libros" class="libro-card" >
+          <mat-card-content class="libro-card-content">
+            <div class="libro-info">
+              <div>
+                <mat-icon>book</mat-icon>
+                <p mat-line>
+                  <strong>Titulo:</strong> <br />
+                  {{ libro.titulo }}
+                </p>
+                <p mat-line>
+                  <strong>Fecha: </strong> <br />
+                  {{ libro.fechaPublicacion | date }}
+                </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <ng-template #noLibros>
+      <div class="lottie-container">
+        <iframe src="https://lottie.host/embed/4797b1a8-2952-453d-888b-66342f77bd7d/UthYbuKaLN.json" width="100%" height="250px" frameborder="0"></iframe>
+      </div>
+    </ng-template>
+  </div>
+  
