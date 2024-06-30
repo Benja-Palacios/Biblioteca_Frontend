@@ -51,10 +51,6 @@ export class InicioComponent {
     });
   }
 
-  nuevo() {
-    this.router.navigate(['/autor', 0]);
-  }
-
   buscarAutor() {
     if (this.searchId && this.searchId.trim() !== '') {
       this.autorService.obtener(this.searchId).subscribe({
