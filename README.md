@@ -1,27 +1,49 @@
-# FrontendBiblioteca
+# Frontend de Bibliote
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+Este proyecto de Biblioteca esta encargada de consumir las siguientes APIs:
 
-## Development server
+## APIs Consumidas
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Grpc_AutorImagen
+Repositorio: [Grpc_AutorImagen](https://github.com/Benja-Palacios/Grpc_AutorImagen) 
 
-## Code scaffolding
+Este repositorio contiene la API para poder guardar y consultar la imagen del autor.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Base de Datos creada en Sql Server
 
-## Build
+### Grpc_Client_Autor-Libro
+Repositorio: [Grpc_Client_Autor-Libro](https://github.com/Benja-Palacios/Grpc_Client_Autor-Libro)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Este repositorio es la API para guardar los datos del autor, que incluye las siguientes funcionalidades:
 
-## Running unit tests
+- Crear autor
+- Consultar autores
+- Buscar por ID
+- Base de Datos creada en MySql
+  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Tienda.Microservicio.Libro
 
-## Running end-to-end tests
+Repositorio: [Tienda.Microservicio.Libro](https://github.com/Benja-Palacios/Tienda.Microservicio.Libro)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Este repositorio es la API para guardar los datos del libro, que incluye las siguientes funcionalidades:
 
-## Further help
+- Crear libro
+- Consultar libros
+- Buscar por ID
+- Base de Datos creada en Postgres SQL
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Además, esta API relaciona el libro con el Autor.
+
+## ¿Como crear las bases de datos?
+#### Usando los siguientes comandos
+1. Add-Migration
+2. le asignas un nombre a la versión
+3. Update-Database
+
+
+## Frontend 
+###
+El frontend esta creado en Angular 17
+podemos ver el proyecto usando el siguiente comando en el CMD 
+### ng serve
