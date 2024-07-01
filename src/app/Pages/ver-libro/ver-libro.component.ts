@@ -6,11 +6,18 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LibroService } from '../../Services/libro.service';
 import { libro } from '../../Models/Libro';
 import { FormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-ver-libro',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    FormsModule,
+    MatBadgeModule,
+  ],
   templateUrl: './ver-libro.component.html',
   styleUrl: './ver-libro.component.css',
 })

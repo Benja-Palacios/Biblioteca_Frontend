@@ -1,65 +1,86 @@
 <div
   class="mat-elevation-z2"
   style="
-    width: 30%;
+    width: 90%;
     padding: 30px;
     margin: 50px auto;
     display: flex;
-    flex-direction: column; /* Alinear los elementos verticalmente */
+    flex-direction: row;
+    justify-content: space-between;
   "
 >
-  <div style="display: flex; align-items: center; margin-bottom: 20px">
-    <mat-icon>book</mat-icon>
-    <h2 style="margin-left: 10px">Nuevo Libro</h2>
+  <div style="width: 45%; display: flex; flex-direction: column">
+    <div style="display: flex; align-items: center; margin-bottom: 20px">
+      <mat-icon>book</mat-icon>
+      <h2 style="margin-left: 10px">Nuevo Libro</h2>
+    </div>
+
+    <form [formGroup]="formLibro" style="display: flex; flex-direction: column">
+      <div class="flex" style="margin-bottom: 20px">
+        <mat-form-field style="width: 100%">
+          <mat-label>Titulo: </mat-label>
+          <input matInput formControlName="titulo" />
+          <mat-icon matSuffix>check</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex" style="margin-bottom: 20px">
+        <mat-form-field style="width: 100%">
+          <mat-label>Fecha Publicacion</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="fechaPublicacion"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="flex" style="margin-bottom: 20px">
+        <mat-form-field style="width: 100%">
+          <mat-label>Autor: </mat-label>
+          <mat-select formControlName="autorLibro">
+            <mat-option
+              *ngFor="let autor of listaAutor"
+              [value]="autor.autorLibroGuid"
+            >
+              {{ autor.nombre }} {{ autor.apellido }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>check</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex">
+        <button mat-flat-button color="primary" (click)="guardar()">
+          Guardar
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          style="margin-left: 10px"
+          (click)="volver()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
   </div>
 
-  <form [formGroup]="formLibro" style="display: flex; flex-direction: column">
-    <div class="flex" style="margin-bottom: 20px">
-      <mat-form-field style="width: 100%">
-        <mat-label>Titulo: </mat-label>
-        <input matInput formControlName="titulo" />
-        <mat-icon matSuffix>check</mat-icon>
-      </mat-form-field>
+  <div style="width: 45%; display: flex; flex-direction: column">
+    <div class="lottie-container" style="width: 100%; text-align: center">
+      <div style="display: inline-block">
+        <iframe
+          src="https://lottie.host/embed/a226dc23-fc8d-4abf-8b84-d3c486033add/NMukYy6yp1.json"
+          width="100%"
+          height="450px"
+          frameborder="0"
+        ></iframe>
+      </div>
     </div>
-
-    <div class="flex" style="margin-bottom: 20px">
-      <mat-form-field style="width: 100%">
-        <mat-label>Fecha Publicacion</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          formControlName="fechaPublicacion"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="flex" style="margin-bottom: 20px">
-      <mat-form-field style="width: 100%">
-        <mat-label>Autor: </mat-label>
-        <mat-select formControlName="autorLibro">
-          <mat-option
-            *ngFor="let autor of listaAutor"
-            [value]="autor.autorLibroGuid"
-            >{{ autor.nombre }} {{ autor.apellido }}</mat-option
-          >
-        </mat-select>
-        <mat-icon matSuffix>check</mat-icon>
-      </mat-form-field>
-    </div>
-
-    <div class="flex">
-      <button mat-flat-button color="primary" (click)="guardar()">
-        Guardar
-      </button>
-      <button
-        mat-flat-button
-        color="warn"
-        style="margin-left: 10px"
-        (click)="volver()"
-      >
-        Cancelar
-      </button>
-    </div>
-  </form>
+  </div>
 </div>

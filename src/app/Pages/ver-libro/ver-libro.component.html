@@ -20,7 +20,14 @@
   </div>
   <div *ngIf="libros.length > 0; else noLibros">
     <div class="lista-tarjetas">
-      <mat-card *ngFor="let libro of libros" class="libro-card">
+      <mat-card
+        *ngFor="let libro of libros"
+        class="libro-card"
+        matBadge="$50"
+        matBadgePosition="below after"
+        matBadgeColor="primary"
+        matBadgeSize="medium"
+      >
         <mat-card-content class="libro-card-content">
           <mat-card-content class="libro-card-content">
             <div class="libro-info">
