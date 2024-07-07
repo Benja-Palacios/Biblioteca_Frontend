@@ -23,4 +23,7 @@ export class NavbarComponent {
   nuevoLibro() {
     this.router.navigate(['/libro', 0]);
   }
+  openBackOffices(){
+    this.router.navigate(['/backoffices']);
+  }
 }
