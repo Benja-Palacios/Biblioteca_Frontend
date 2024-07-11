@@ -24,4 +24,8 @@ export class CuponService {
   crearCupon(cupon: Cupon): Observable<any> {
     return this.http.post(`${this.apiURL}/CrearCupon`, cupon);
   }
+
+  editarCupon(cupon: Cupon): Observable<any> {
+    return this.http.put(`${this.apiURL}`, cupon);
+  }
 }

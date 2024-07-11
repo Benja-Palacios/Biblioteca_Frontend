@@ -28,8 +28,10 @@ import { Cupon } from '../../Models/Cupon';
 })
 export class HomeComponent implements OnInit {
   cuponCode: string = '';
-  porcentajeDescuento: number = 0;
-  descuentoMinimo: number = 0;
+  porcentajeDescuento: number | null = null;
+  descuentoMinimo: number | null = null;
+  editing: boolean = false;
+  editingCuponId: number | null = null;
 
   displayedColumns: string[] = [
     'cuponId',
@@ -40,9 +42,13 @@ export class HomeComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Cupon>();
 
-  constructor(private cuponService: CuponService) {}
+  constructor(private cuponService: CuponService) { }
 
   ngOnInit() {
+    this.cargarCupones();
+  }
+
+  cargarCupones() {
     this.cuponService.lista().subscribe((data: Cupon[]) => {
       this.dataSource.data = data;
     });
@@ -50,20 +56,38 @@ export class HomeComponent implements OnInit {
 
   crearCupon() {
     const nuevoCupon: Cupon = {
-      cuponId: 0,
+      cuponId: this.editingCuponId ?? 0,
       cuponCode: this.cuponCode,
-      porcentajeDescuento: this.porcentajeDescuento,
-      descuentoMinimo: this.descuentoMinimo
+      porcentajeDescuento: this.porcentajeDescuento ?? 0,
+      descuentoMinimo: this.descuentoMinimo ?? 0,
     };
-    this.cuponService.crearCupon(nuevoCupon).subscribe((response) => {
-      // Manejar la respuesta aquí, como actualizar la tabla de cupones
-      this.cuponService.lista().subscribe((data: Cupon[]) => {
-        this.dataSource.data = data;
+
+    if (this.editing) {
+      this.cuponService.editarCupon(nuevoCupon).subscribe(() => {
+        this.cargarCupones();
+        this.resetForm();
       });
-    });
+    } else {
+      this.cuponService.crearCupon(nuevoCupon).subscribe(() => {
+        this.cargarCupones();
+        this.resetForm();
+      });
+    }
   }
 
-  editarCupon(element: Cupon) {
-    // Lógica para editar cupon
+  editarCupon(cupon: Cupon) {
+    this.editing = true;
+    this.editingCuponId = cupon.cuponId;
+    this.cuponCode = cupon.cuponCode;
+    this.porcentajeDescuento = cupon.porcentajeDescuento;
+    this.descuentoMinimo = cupon.descuentoMinimo;
+  }
+
+  resetForm() {
+    this.cuponCode = '';
+    this.porcentajeDescuento = null;
+    this.descuentoMinimo = null;
+    this.editing = false;
+    this.editingCuponId = null;
   }
 }

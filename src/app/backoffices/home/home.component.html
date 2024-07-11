@@ -5,26 +5,28 @@
     <mat-card-content>
         <form style="display: flex; align-items: center; gap: 16px;" (ngSubmit)="crearCupon()">
             <mat-form-field appearance="fill">
-              <mat-label>Cupon Codigo</mat-label>
-              <mat-icon matPrefix>featured_play_list</mat-icon>
-              <input matInput [(ngModel)]="cuponCode" name="cuponCode" required>
+                <mat-label>Cupon Codigo</mat-label>
+                <mat-icon matPrefix>featured_play_list</mat-icon>
+                <input matInput [(ngModel)]="cuponCode" name="cuponCode" required>
             </mat-form-field>
             <div class="spacer"></div>
             <mat-form-field appearance="fill">
-              <mat-label>Descuento</mat-label>
-              <mat-icon matPrefix>attach_money</mat-icon>
-              <input matInput type="number" [(ngModel)]="porcentajeDescuento" name="porcentajeDescuento" required>
+                <mat-label>Descuento</mat-label>
+                <mat-icon matPrefix>attach_money</mat-icon>
+                <input matInput type="number" [(ngModel)]="porcentajeDescuento" name="porcentajeDescuento" required>
             </mat-form-field>
             <div class="spacer"></div>
             <mat-form-field appearance="fill">
-              <mat-label>Descuento Min</mat-label>
-              <mat-icon matPrefix>money_off</mat-icon>
-              <input matInput type="number" [(ngModel)]="descuentoMinimo" name="descuentoMinimo" required>
+                <mat-label>Descuento Min</mat-label>
+                <mat-icon matPrefix>money_off</mat-icon>
+                <input matInput type="number" [(ngModel)]="descuentoMinimo" name="descuentoMinimo" required>
             </mat-form-field>
-            <button mat-icon-button color="primary" type="submit">
-              <mat-icon>save</mat-icon>
+            <button mat-icon-button color="primary" type="submit"
+                [disabled]="!cuponCode || porcentajeDescuento == null || descuentoMinimo == null">
+                <mat-icon>save</mat-icon>
             </button>
-          </form>          
+        </form>
+
         <div style="margin-top: 20px; display: flex; align-items: center;">
             <input matInput placeholder="ID:" style="flex: 1; margin-right: 8px; height: 40px; border-radius: 5px;">
             <button mat-icon-button color="primary" style="color: #1976d2;">
