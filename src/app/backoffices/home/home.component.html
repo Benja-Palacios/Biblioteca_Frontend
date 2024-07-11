@@ -28,12 +28,22 @@
         </form>
 
         <div style="margin-top: 20px; display: flex; align-items: center;">
-            <input matInput placeholder="ID:" style="flex: 1; margin-right: 8px; height: 40px; border-radius: 5px;">
-            <button mat-icon-button color="primary" style="color: #1976d2;">
+            <mat-form-field appearance="fill" style="flex: 1; margin-right: 8px;">
+                <mat-select [(ngModel)]="searchType">
+                    <mat-option value="id">Buscar por ID</mat-option>
+                    <mat-option value="cuponCode">Buscar por Código</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Buscar..." [(ngModel)]="searchValue">
+
+            </mat-form-field>
+            <button mat-icon-button color="primary" (click)="buscarCupon()">
                 <mat-icon>search</mat-icon>
             </button>
         </div>
         <hr>
+
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="cuponId">

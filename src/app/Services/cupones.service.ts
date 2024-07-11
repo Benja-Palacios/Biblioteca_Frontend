@@ -28,4 +28,16 @@ export class CuponService {
   editarCupon(cupon: Cupon): Observable<any> {
     return this.http.put(`${this.apiURL}`, cupon);
   }
+
+  getCuponById(id: number): Observable<Cupon> {
+    return this.http.get<ResponseAPICupon<Cupon>>(`${this.apiURL}/id:int?id=${id}`).pipe(
+      map(response => response.result)
+    );
+  }
+
+  getCuponByCode(couponCode: string): Observable<Cupon> {
+    return this.http.get<ResponseAPICupon<Cupon>>(`${this.apiURL}/getbycode/${couponCode}`).pipe(
+      map(response => response.result)
+    );
+  }
 }

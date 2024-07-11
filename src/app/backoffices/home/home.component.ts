@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CuponService } from '../../Services/cupones.service';
 import { Cupon } from '../../Models/Cupon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { Cupon } from '../../Models/Cupon';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -32,6 +34,8 @@ export class HomeComponent implements OnInit {
   descuentoMinimo: number | null = null;
   editing: boolean = false;
   editingCuponId: number | null = null;
+  searchValue: string = '';
+  searchType: string = 'id';
 
   displayedColumns: string[] = [
     'cuponId',
@@ -89,5 +93,33 @@ export class HomeComponent implements OnInit {
     this.descuentoMinimo = null;
     this.editing = false;
     this.editingCuponId = null;
+  }
+
+  buscarCupon() {
+    if (this.searchValue.trim() === '') {
+      this.cargarCupones(); // Cargar todos los cupones si el campo de búsqueda está vacío
+      return;
+    }
+
+    if (this.searchType === 'id') {
+      const id = parseInt(this.searchValue, 10);
+      if (!isNaN(id)) {
+        this.cuponService.getCuponById(id).subscribe(cupon => {
+          if (cupon) {
+            this.dataSource.data = [cupon];
+          } else {
+            this.dataSource.data = [];
+          }
+        });
+      }
+    } else if (this.searchType === 'cuponCode') {
+      this.cuponService.getCuponByCode(this.searchValue).subscribe(cupon => {
+        if (cupon) {
+          this.dataSource.data = [cupon];
+        } else {
+          this.dataSource.data = [];
+        }
+      });
+    }
   }
 }
