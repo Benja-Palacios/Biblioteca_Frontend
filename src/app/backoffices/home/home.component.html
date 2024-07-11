@@ -44,8 +44,14 @@
         </div>
         <hr>
 
+        <div *ngIf="dataSource.data.length === 0" class="no-cupons">
+            <div class="lottie-container">
+                <iframe src="https://lottie.host/embed/4797b1a8-2952-453d-888b-66342f77bd7d/UthYbuKaLN.json"
+                    width="100%" height="250px" frameborder="0"></iframe>
+            </div>
+        </div>
 
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table *ngIf="dataSource.data.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="cuponId">
                 <th mat-header-cell *matHeaderCellDef> ID </th>
                 <td mat-cell *matCellDef="let element"> {{element.cuponId}} </td>
