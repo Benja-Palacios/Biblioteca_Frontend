@@ -3,7 +3,7 @@
         <mat-card-title>Lista de Cupones</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form style="display: flex; align-items: center; gap: 16px;">
+        <form style="display: flex; align-items: center; gap: 16px;" (ngSubmit)="crearCupon()">
             <mat-form-field appearance="fill">
               <mat-label>Cupon Codigo</mat-label>
               <mat-icon matPrefix>featured_play_list</mat-icon>
@@ -13,28 +13,26 @@
             <mat-form-field appearance="fill">
               <mat-label>Descuento</mat-label>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input matInput [(ngModel)]="porcentajeDescuento" name="porcentajeDescuento" required>
+              <input matInput type="number" [(ngModel)]="porcentajeDescuento" name="porcentajeDescuento" required>
             </mat-form-field>
             <div class="spacer"></div>
             <mat-form-field appearance="fill">
-                <mat-label>Descuento Min</mat-label>
-                <mat-icon matPrefix>money_off</mat-icon>
-                <input matInput [(ngModel)]="descuentoMinimo" name="descuentoMinimo" required>
-              </mat-form-field>
-              <button mat-icon-button color="primary" type="submit" >
-                <mat-icon>save</mat-icon>
-            </button>          
-        </form>
+              <mat-label>Descuento Min</mat-label>
+              <mat-icon matPrefix>money_off</mat-icon>
+              <input matInput type="number" [(ngModel)]="descuentoMinimo" name="descuentoMinimo" required>
+            </mat-form-field>
+            <button mat-icon-button color="primary" type="submit">
+              <mat-icon>save</mat-icon>
+            </button>
+          </form>          
         <div style="margin-top: 20px; display: flex; align-items: center;">
-            <input matInput  placeholder="ID:"
-                style="flex: 1; margin-right: 8px; height: 40px; border-radius: 5px;">
+            <input matInput placeholder="ID:" style="flex: 1; margin-right: 8px; height: 40px; border-radius: 5px;">
             <button mat-icon-button color="primary" style="color: #1976d2;">
                 <mat-icon>search</mat-icon>
             </button>
         </div>
         <hr>
 
-        <!--Ingresar una tabla de Material Angular-->
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="cuponId">
                 <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -48,14 +46,12 @@
 
             <ng-container matColumnDef="porcentajeDescuento">
                 <th mat-header-cell *matHeaderCellDef> Descuento </th>
-                <td mat-cell *matCellDef="let element"> {{element.porcentajeDescuento}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.porcentajeDescuento}} <span>%</span></td>
             </ng-container>
-
             <ng-container matColumnDef="descuentoMinimo">
                 <th mat-header-cell *matHeaderCellDef> Descuento Min </th>
-                <td mat-cell *matCellDef="let element"> {{element.descuentoMinimo}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.descuentoMinimo}} <span>%</span> </td>
             </ng-container>
-
             <!-- Nueva columna para el botón de editar -->
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
@@ -65,7 +61,6 @@
                     </button>
                 </td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

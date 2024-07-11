@@ -1,43 +1,69 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { CuponService } from '../../Services/cupones.service';
+import { Cupon } from '../../Models/Cupon';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [    CommonModule,
+  imports: [
+    CommonModule,
     MatCardModule,
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    FormsModule,MatFormFieldModule,MatInputModule],
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   cuponCode: string = '';
-  porcentajeDescuento: string = '';
-  descuentoMinimo: string = '';
+  porcentajeDescuento: number = 0;
+  descuentoMinimo: number = 0;
 
-    displayedColumns: string[] = ['cuponId', 'cuponCode', 'porcentajeDescuento', 'descuentoMinimo', 'acciones'];
-    dataSource = [
-        { cuponId: 1, cuponCode: 'Cupon 1', porcentajeDescuento: '10%', descuentoMinimo: '5%' },
-        { cuponId: 2, cuponCode: 'Cupon 2', porcentajeDescuento: '10%', descuentoMinimo: '5%' },
-        { cuponId: 3, cuponCode: 'Cupon 3', porcentajeDescuento: '10%', descuentoMinimo: '5%' },
-    ];
+  displayedColumns: string[] = [
+    'cuponId',
+    'cuponCode',
+    'porcentajeDescuento',
+    'descuentoMinimo',
+    'acciones',
+  ];
+  dataSource = new MatTableDataSource<Cupon>();
 
-    editarCupon(cupon: any) {
-        // Implementa aquí la lógica para editar el cupón
-        console.log('Editar cupón:', cupon);
-        // Por ejemplo, podrías abrir un modal de edición aquí
-    }
+  constructor(private cuponService: CuponService) {}
 
-  
+  ngOnInit() {
+    this.cuponService.lista().subscribe((data: Cupon[]) => {
+      this.dataSource.data = data;
+    });
+  }
+
+  crearCupon() {
+    const nuevoCupon: Cupon = {
+      cuponId: 0,
+      cuponCode: this.cuponCode,
+      porcentajeDescuento: this.porcentajeDescuento,
+      descuentoMinimo: this.descuentoMinimo
+    };
+    this.cuponService.crearCupon(nuevoCupon).subscribe((response) => {
+      // Manejar la respuesta aquí, como actualizar la tabla de cupones
+      this.cuponService.lista().subscribe((data: Cupon[]) => {
+        this.dataSource.data = data;
+      });
+    });
+  }
+
+  editarCupon(element: Cupon) {
+    // Lógica para editar cupon
+  }
 }
