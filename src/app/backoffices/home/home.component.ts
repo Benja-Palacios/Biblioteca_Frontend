@@ -29,7 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  cuponCode: string = '';
+  cuponCode: string = this.generateCouponCode();
   porcentajeDescuento: number | null = null;
   descuentoMinimo: number | null = null;
   editing: boolean = false;
@@ -88,12 +88,37 @@ export class HomeComponent implements OnInit {
   }
 
   resetForm() {
-    this.cuponCode = '';
+    this.cuponCode = this.generateCouponCode();
     this.porcentajeDescuento = null;
     this.descuentoMinimo = null;
     this.editing = false;
     this.editingCuponId = null;
   }
+  
+  generateCouponCode(): string {
+    const now = new Date();
+    const expirationDate = new Date();
+    expirationDate.setDate(now.getDate() + 30);
+  
+    // Formatea las fechas
+    const formatDate = (date: Date) => {
+      const year = String(date.getFullYear()).slice(-2);
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${day}${month}${year}`;
+    };
+  
+    const creationDate = formatDate(now);
+    const expDate = formatDate(expirationDate);
+  
+    const randomPart = `BMP${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+  
+    const coupon = `${creationDate}-${expDate}-${randomPart}`;
+  
+    return coupon;
+  }
+  
+  
 
   buscarCupon() {
     if (this.searchValue.trim() === '') {
