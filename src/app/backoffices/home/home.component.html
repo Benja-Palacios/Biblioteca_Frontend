@@ -3,29 +3,53 @@
         <mat-card-title>Lista de Cupones</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form style="display: flex; align-items: center; gap: 16px;" (ngSubmit)="crearCupon()">
-            <mat-form-field appearance="fill">
-                <mat-label>Cupon Codigo</mat-label>
-                <mat-icon matPrefix>featured_play_list</mat-icon>
-                <input matInput [(ngModel)]="cuponCode" name="cuponCode" disabled />
-            </mat-form-field>
-            <div class="spacer"></div>
-            <mat-form-field appearance="fill">
-                <mat-label>Descuento</mat-label>
-                <mat-icon matPrefix>attach_money</mat-icon>
-                <input matInput type="number" [(ngModel)]="porcentajeDescuento" name="porcentajeDescuento" required>
-            </mat-form-field>
-            <div class="spacer"></div>
-            <mat-form-field appearance="fill">
-                <mat-label>Descuento Min</mat-label>
-                <mat-icon matPrefix>money_off</mat-icon>
-                <input matInput type="number" [(ngModel)]="descuentoMinimo" name="descuentoMinimo" required>
-            </mat-form-field>
-            <button mat-icon-button color="primary" type="submit"
-                [disabled]="!cuponCode || porcentajeDescuento == null || descuentoMinimo == null">
-                <mat-icon>save</mat-icon>
-            </button>
+        <form (ngSubmit)="crearCupon()" style="display: flex; flex-direction: column; gap: 16px; align-items: center;">
+            <!-- Sección Superior: Cupon Codigo, Descuento, Descuento Min -->
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <mat-form-field appearance="fill">
+                    <mat-label>Cupon Codigo</mat-label>
+                    <mat-icon matPrefix>featured_play_list</mat-icon>
+                    <input matInput [(ngModel)]="cuponCode" name="cuponCode" disabled />
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Descuento</mat-label>
+                    <mat-icon matPrefix>attach_money</mat-icon>
+                    <input matInput type="number" [(ngModel)]="porcentajeDescuento" name="porcentajeDescuento" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Descuento Min</mat-label>
+                    <mat-icon matPrefix>money_off</mat-icon>
+                    <input matInput type="number" [(ngModel)]="descuentoMinimo" name="descuentoMinimo" required>
+                </mat-form-field>
+            </div>
+
+            <!-- Sección Inferior: Fechas y Botón -->
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Fecha de Inicio</mat-label>
+                    <input matInput [matDatepicker]="picker1" [(ngModel)]="fechaInicio" name="fechaInicio"
+                        [matDatepickerFilter]="dateInicioFilter">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Fecha Final</mat-label>
+                    <input matInput [matDatepicker]="picker2" [(ngModel)]="fechaFinal" name="fechaFinal"
+                        [matDatepickerFilter]="dateFinalFilter">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+
+                <button mat-icon-button color="primary" type="submit"
+                    [disabled]="!cuponCode || porcentajeDescuento == null || descuentoMinimo == null">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
         </form>
+
 
         <div style="margin-top: 20px; display: flex; align-items: center;">
             <mat-form-field appearance="fill" style="flex: 1; margin-right: 8px;">
@@ -58,17 +82,25 @@
             </ng-container>
 
             <ng-container matColumnDef="cuponCode">
-                <th mat-header-cell *matHeaderCellDef> Code </th>
+                <th mat-header-cell *matHeaderCellDef> Codigo </th>
                 <td mat-cell *matCellDef="let element"> {{element.cuponCode}} </td>
             </ng-container>
 
             <ng-container matColumnDef="porcentajeDescuento">
-                <th mat-header-cell *matHeaderCellDef> Descuento </th>
+                <th mat-header-cell *matHeaderCellDef> Desc. Max </th>
                 <td mat-cell *matCellDef="let element"> {{element.porcentajeDescuento}} <span>%</span></td>
             </ng-container>
             <ng-container matColumnDef="descuentoMinimo">
-                <th mat-header-cell *matHeaderCellDef> Descuento Min </th>
+                <th mat-header-cell *matHeaderCellDef> Desc. Min </th>
                 <td mat-cell *matCellDef="let element"> {{element.descuentoMinimo}} <span>%</span> </td>
+            </ng-container>
+            <ng-container matColumnDef="fechaInicio">
+                <th mat-header-cell *matHeaderCellDef> Inicio Validez </th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaInicio | date: 'dd/MM/yy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="fechaFinal">
+                <th mat-header-cell *matHeaderCellDef> Fin Validez </th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaFinal | date: 'dd/MM/yy'}} </td>
             </ng-container>
             <!-- Nueva columna para el botón de editar -->
             <ng-container matColumnDef="acciones">
@@ -77,6 +109,13 @@
                     <button mat-icon-button color="primary" (click)="editarCupon(element)">
                         <mat-icon>edit</mat-icon>
                     </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon [style.color]="element.status ? 'green' : 'red'"> {{element.status ? 'check_circle' :
+                        'cancel'}} </mat-icon>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

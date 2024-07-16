@@ -3,5 +3,8 @@ export interface Cupon {
     cuponCode: string;
     porcentajeDescuento: number;
     descuentoMinimo: number;
+    fechaInicio:Date;
+    fechaFinal:Date;
+    status?: Boolean
   }
   

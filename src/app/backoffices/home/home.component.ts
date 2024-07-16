@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { CuponService } from '../../Services/cupones.service';
 import { Cupon } from '../../Models/Cupon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 @Component({
   selector: 'app-home',
@@ -23,7 +26,9 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -36,18 +41,29 @@ export class HomeComponent implements OnInit {
   editingCuponId: number | null = null;
   searchValue: string = '';
   searchType: string = 'id';
+  fechaInicio: Date;
+  fechaFinal: Date;
+  
+
 
   displayedColumns: string[] = [
     'cuponId',
     'cuponCode',
     'porcentajeDescuento',
     'descuentoMinimo',
+    'fechaInicio',
+    'fechaFinal',
     'acciones',
+    'status'
   ];
   dataSource = new MatTableDataSource<Cupon>();
 
-  constructor(private cuponService: CuponService) { }
-
+  constructor(private cuponService: CuponService) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    this.fechaInicio = today;
+    this.fechaFinal = today;
+  }
   ngOnInit() {
     this.cargarCupones();
   }
@@ -64,6 +80,8 @@ export class HomeComponent implements OnInit {
       cuponCode: this.cuponCode,
       porcentajeDescuento: this.porcentajeDescuento ?? 0,
       descuentoMinimo: this.descuentoMinimo ?? 0,
+      fechaInicio: this.fechaInicio,
+      fechaFinal: this.fechaFinal
     };
 
     if (this.editing) {
@@ -85,6 +103,8 @@ export class HomeComponent implements OnInit {
     this.cuponCode = cupon.cuponCode;
     this.porcentajeDescuento = cupon.porcentajeDescuento;
     this.descuentoMinimo = cupon.descuentoMinimo;
+    this.fechaInicio = cupon.fechaInicio;
+    this.fechaFinal = cupon.fechaFinal;
   }
 
   resetForm() {
@@ -93,13 +113,15 @@ export class HomeComponent implements OnInit {
     this.descuentoMinimo = null;
     this.editing = false;
     this.editingCuponId = null;
+    this.fechaInicio = new Date;
+    this.fechaFinal = new Date;
   }
-  
+
   generateCouponCode(): string {
     const now = new Date();
     const expirationDate = new Date();
     expirationDate.setDate(now.getDate() + 30);
-  
+
     // Formatea las fechas
     const formatDate = (date: Date) => {
       const year = String(date.getFullYear()).slice(-2);
@@ -107,18 +129,16 @@ export class HomeComponent implements OnInit {
       const day = String(date.getDate()).padStart(2, '0');
       return `${day}${month}${year}`;
     };
-  
+
     const creationDate = formatDate(now);
     const expDate = formatDate(expirationDate);
-  
+
     const randomPart = `BMP${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
-  
+
     const coupon = `${creationDate}-${expDate}-${randomPart}`;
-  
+
     return coupon;
   }
-  
-  
 
   buscarCupon() {
     if (this.searchValue.trim() === '') {
@@ -147,4 +167,16 @@ export class HomeComponent implements OnInit {
       });
     }
   }
+
+  dateInicioFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+    return d ? d >= today : false;
+  };
+
+  dateFinalFilter = (d: Date | null): boolean => {
+    const fechaInicioDate = new Date(this.fechaInicio);
+    fechaInicioDate.setHours(0, 0, 0, 0);
+    return d ? d >= fechaInicioDate : false;
+  };
 }
