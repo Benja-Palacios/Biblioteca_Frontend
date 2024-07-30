@@ -26,4 +26,7 @@ export class NavbarComponent {
   openBackOffices(){
     this.router.navigate(['/backoffices']);
   }
+  verCarrito(){
+    this.router.navigate(['/detalles/carrito'])
+  }
 }

@@ -5,6 +5,7 @@ export interface Cupon {
     descuentoMinimo: number;
     fechaInicio:Date;
     fechaFinal:Date;
-    status?: Boolean
+    status?: Boolean;
+    tipoGenero: string;
   }
   

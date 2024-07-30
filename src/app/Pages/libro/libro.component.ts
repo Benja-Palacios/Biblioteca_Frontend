@@ -41,6 +41,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
   providers: [AutorLibroService, LibroService],
 })
 export class LibroComponent implements OnInit {
+  genres: string[] = ['Terror', 'Suspenso', 'Fantasía', 'Romance', 'Ciencia Ficción'];
   listaAutor: Autor[] = [];
   formLibro: FormGroup;
 
@@ -54,6 +55,8 @@ export class LibroComponent implements OnInit {
       titulo: ['', Validators.required],
       fechaPublicacion: ['', Validators.required],
       autorLibro: ['', Validators.required],
+      genero: ['', Validators.required],
+      precio: [0.0, [Validators.required, Validators.min(0)]]
     });
   }
 
@@ -74,6 +77,8 @@ export class LibroComponent implements OnInit {
         titulo: this.formLibro.value.titulo,
         fechaPublicacion: fechaPublicacionFormateada,
         autorLibro: this.formLibro.value.autorLibro,
+        genero: this.formLibro.value.genero,
+        precio: this.formLibro.value.precio
       };
 
       this.libroService.crear(libroData).subscribe({

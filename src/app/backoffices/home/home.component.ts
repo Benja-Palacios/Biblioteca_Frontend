@@ -13,7 +13,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
-
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -34,7 +33,8 @@ import { MatNativeDateModule } from '@angular/material/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  cuponCode: string = this.generateCouponCode();
+  genres: string[] = ['Terror', 'Suspenso', 'Fantasía', 'Romance', 'Ciencia Ficción'];
+  cuponCode: string = '';
   porcentajeDescuento: number | null = null;
   descuentoMinimo: number | null = null;
   editing: boolean = false;
@@ -43,8 +43,7 @@ export class HomeComponent implements OnInit {
   searchType: string = 'id';
   fechaInicio: Date;
   fechaFinal: Date;
-  
-
+  tipoGenero: string = '';
 
   displayedColumns: string[] = [
     'cuponId',
@@ -53,9 +52,11 @@ export class HomeComponent implements OnInit {
     'descuentoMinimo',
     'fechaInicio',
     'fechaFinal',
+    'tipoGenero',
     'acciones',
     'status'
   ];
+
   dataSource = new MatTableDataSource<Cupon>();
 
   constructor(private cuponService: CuponService) {
@@ -64,6 +65,7 @@ export class HomeComponent implements OnInit {
     this.fechaInicio = today;
     this.fechaFinal = today;
   }
+
   ngOnInit() {
     this.cargarCupones();
   }
@@ -75,13 +77,19 @@ export class HomeComponent implements OnInit {
   }
 
   crearCupon() {
+    // Generar el código del cupón basado en el tipo de género antes de crear el cupón
+    if (!this.cuponCode && this.tipoGenero) {
+      this.cuponCode = this.generateCouponCode();
+    }
+
     const nuevoCupon: Cupon = {
       cuponId: this.editingCuponId ?? 0,
       cuponCode: this.cuponCode,
       porcentajeDescuento: this.porcentajeDescuento ?? 0,
       descuentoMinimo: this.descuentoMinimo ?? 0,
       fechaInicio: this.fechaInicio,
-      fechaFinal: this.fechaFinal
+      fechaFinal: this.fechaFinal,
+      tipoGenero: this.tipoGenero
     };
 
     if (this.editing) {
@@ -105,44 +113,23 @@ export class HomeComponent implements OnInit {
     this.descuentoMinimo = cupon.descuentoMinimo;
     this.fechaInicio = cupon.fechaInicio;
     this.fechaFinal = cupon.fechaFinal;
+    this.tipoGenero = cupon.tipoGenero;
   }
 
   resetForm() {
-    this.cuponCode = this.generateCouponCode();
+    this.cuponCode = '';
     this.porcentajeDescuento = null;
     this.descuentoMinimo = null;
     this.editing = false;
     this.editingCuponId = null;
-    this.fechaInicio = new Date;
-    this.fechaFinal = new Date;
-  }
-
-  generateCouponCode(): string {
-    const now = new Date();
-    const expirationDate = new Date();
-    expirationDate.setDate(now.getDate() + 30);
-
-    // Formatea las fechas
-    const formatDate = (date: Date) => {
-      const year = String(date.getFullYear()).slice(-2);
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${day}${month}${year}`;
-    };
-
-    const creationDate = formatDate(now);
-    const expDate = formatDate(expirationDate);
-
-    const randomPart = `BMP${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
-
-    const coupon = `${creationDate}-${expDate}-${randomPart}`;
-
-    return coupon;
+    this.fechaInicio = new Date();
+    this.fechaFinal = new Date();
+    this.tipoGenero = '';
   }
 
   buscarCupon() {
     if (this.searchValue.trim() === '') {
-      this.cargarCupones(); // Cargar todos los cupones si el campo de búsqueda está vacío
+      this.cargarCupones();
       return;
     }
 
@@ -170,7 +157,7 @@ export class HomeComponent implements OnInit {
 
   dateInicioFilter = (d: Date | null): boolean => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); 
+    today.setHours(0, 0, 0, 0);
     return d ? d >= today : false;
   };
 
@@ -179,4 +166,19 @@ export class HomeComponent implements OnInit {
     fechaInicioDate.setHours(0, 0, 0, 0);
     return d ? d >= fechaInicioDate : false;
   };
+
+  generateCouponCode(): string {
+    if (this.tipoGenero && this.tipoGenero !== '') {
+      const randomNum = Math.floor(Math.random() * 90 + 10);
+      return `${this.tipoGenero}-BMP-${randomNum}`;
+    }
+    return '';
+  }
+
+  onGenreChange(event: any) {
+    this.tipoGenero = event.value;
+    console.log('Género Seleccionado:', this.tipoGenero);
+    this.cuponCode = this.generateCouponCode();
+  }
+
 }

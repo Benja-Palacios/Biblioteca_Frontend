@@ -2,6 +2,8 @@
 .footer-toolbar {
   justify-content: space-between;
   font-size: 12px;
+  background-color: #004085; 
+  color: white;
 }
 .spacer {
   flex: 1 1 auto;

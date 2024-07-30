@@ -4,6 +4,8 @@
   left: 0;
   width: 100%;
   z-index: 1000; /* Ajusta el índice z si es necesario */
+  background-color: #004085; 
+  color: white;
 }
 
 .spacer {

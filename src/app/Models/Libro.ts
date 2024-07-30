@@ -3,5 +3,7 @@ export interface libro {
     titulo: string;
     fechaPublicacion: Date;
     autor: string;
+    genero: string;
+    precio: number
   }
   

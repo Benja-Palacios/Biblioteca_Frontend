@@ -1,12 +1,13 @@
 <mat-card style="width: 70%; margin: 50px auto;">
+  <mat-card-title>Hola Estimado ... 👋</mat-card-title>
   <mat-card-header>
-    <mat-card-title>Autores Recomendados</mat-card-title>
+    <mat-card-title>Autores Agregados</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div style="margin-top: 20px; display: flex; align-items: center;">
+    <div style="margin-top: 20px; display: flex; align-items: center;" >
       <input matInput [(ngModel)]="searchId" placeholder="Ingrese Nombre"
         style="flex: 1; margin-right: 8px; height: 40px; border-radius: 5px;">
-      <button mat-icon-button color="primary" (click)="buscarAutor()" style="color: #1976d2;">
+      <button mat-icon-button  color="accent" (click)="buscarAutor()">
         <mat-icon>search</mat-icon>
       </button>
     </div>

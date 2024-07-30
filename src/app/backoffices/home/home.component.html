@@ -42,6 +42,16 @@
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Seleccionar Género</mat-label>
+                    <mat-select [(ngModel)]="tipoGenero" (selectionChange)="onGenreChange($event)">
+                        <mat-option value="">Seleccionar Género</mat-option>
+                        <mat-option *ngFor="let genre of genres" [value]="genre">
+                            {{ genre }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
 
                 <button mat-icon-button color="primary" type="submit"
                     [disabled]="!cuponCode || porcentajeDescuento == null || descuentoMinimo == null">
@@ -101,6 +111,10 @@
             <ng-container matColumnDef="fechaFinal">
                 <th mat-header-cell *matHeaderCellDef> Fin Validez </th>
                 <td mat-cell *matCellDef="let element"> {{element.fechaFinal | date: 'dd/MM/yy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="tipoGenero">
+                <th mat-header-cell *matHeaderCellDef> Para </th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoGenero}} </td>
             </ng-container>
             <!-- Nueva columna para el botón de editar -->
             <ng-container matColumnDef="acciones">

@@ -60,7 +60,7 @@ h1[mat-dialog-title] {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
-  background-image: url('../../../assets/img/portadaLibro.png');
+  background-image: url('../../../assets/img/portada.jpeg');
   background-size: cover;
   background-position: center;
   position: relative;

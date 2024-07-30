@@ -1,35 +1,39 @@
-<mat-toolbar color="primary" class="fixed-toolbar">
+<mat-toolbar class="fixed-toolbar">
   <span>Biblioteca</span>
   <span class="spacer"></span>
   <!-- Espaciador flexible para empujar los botones hacia la derecha -->
   <div>
     <button mat-raised-button color="accent" [matMenuTriggerFor]="autorMenu">
-      Autor
+      <mat-icon>people</mat-icon>  Autor
     </button>
     <span class="button-gap"></span>
     <!-- Espacio entre botones -->
     <button mat-raised-button color="accent" [matMenuTriggerFor]="libroMenu">
-      Libro
+      <mat-icon>book</mat-icon>Libro
     </button>
     <span class="button-gap"></span>
 
     <button mat-raised-button color="accent" (click)="openBackOffices()">
-      BackOffice
+      <mat-icon>settings</mat-icon>Cupones
+    </button>
+    <span class="button-gap"></span>
+    <button mat-raised-button color="accent" (click)="verCarrito()">
+      <mat-icon>add_shopping_cart</mat-icon>Carrtio
     </button>
   </div>
 </mat-toolbar>
 
 <mat-menu #autorMenu="matMenu" yPosition="below">
   <button mat-menu-item (click)="verAutor()">
-    <mat-icon>visibility</mat-icon> Ver Autor
+     Ver Autor
   </button>
   <button mat-menu-item (click)="nuevoAutor()">
-    <mat-icon>person_add</mat-icon>Agregar Autor
+    Agregar Autor
   </button>
 </mat-menu>
 
 <mat-menu #libroMenu="matMenu" yPosition="below">
   <button mat-menu-item (click)="nuevoLibro()">
-    <mat-icon>library_add</mat-icon> Agregar Libro
+     Agregar Libro
   </button>
 </mat-menu>
