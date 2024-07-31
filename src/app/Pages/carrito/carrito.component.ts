@@ -11,11 +11,15 @@ import { CarritoDetalle } from '../../Models/CarritoDetalle';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { GrupoLibros } from '../../Models/GrupoLibros';
+import { CuponService } from '../../Services/cupones.service';
+import { Cupon } from '../../Models/Cupon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, FormsModule, MatInputModule],
+  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, FormsModule, MatInputModule, MatCheckboxModule],
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css'],
 })
@@ -36,15 +40,21 @@ export class CarritoComponent implements OnInit {
   impuestosBD: number = 0;
   totalBD: number = 0;
   grupoLibros: GrupoLibros[] = []; // Para almacenar los libros agrupados por ID
+  cupones: Cupon[] = [];
+  cuponesSeleccionados: Set<string> = new Set();
+  librosAgrupadosPorId: { [id: string]: number } = {}; // { libroId: cantidad }
+
 
   constructor(
     private carritoService: CarritoPreviewService,
-    private carritoApiService: CarritoService
+    private carritoApiService: CarritoService,
+    private cuponService: CuponService
   ) { }
 
   ngOnInit() {
     this.carrito = this.carritoService.obtenerCarrito();
     this.actualizarDetalles();
+    this.cargarCupones();
   }
 
   incrementQuantity(libro: libro) {
@@ -132,6 +142,7 @@ export class CarritoComponent implements OnInit {
           this.agruparLibros(); // Agrupar los libros por ID
           this.calcularDetallesCarritoBD();
           this.mostrarCarritoBD = true;
+          this.cargarCupones();
         },
         (error) => {
           console.error('Error al obtener el carrito desde la base de datos', error);
@@ -147,10 +158,10 @@ export class CarritoComponent implements OnInit {
     this.precioUnitarioBD = this.grupoLibros.length > 0 ? this.grupoLibros[0].precio : 0;
     this.cantidadTotalBD = this.grupoLibros.reduce((total, libro) => total + libro.cantidad, 0);
     this.subtotalBD = this.grupoLibros.reduce((sum, libro) => sum + libro.precioTotal, 0);
-    this.descuentoBD = 0; // Ajusta según sea necesario
     this.impuestosBD = this.subtotalBD * 0.15; // Ejemplo de cálculo de impuestos
     this.totalBD = this.subtotalBD - this.descuentoBD + this.impuestosBD;
   }
+
 
   agruparLibros() {
     const librosMap = new Map<string, GrupoLibros>();
@@ -176,5 +187,66 @@ export class CarritoComponent implements OnInit {
     });
 
     this.grupoLibros = Array.from(librosMap.values());
+  }
+
+  cargarCupones() {
+    this.cuponService.lista().subscribe(
+      (data: Cupon[]) => {
+        this.cupones = data;
+        this.filtrarCupones(); // Filtrar cupones después de cargar
+      },
+      (error) => {
+        console.error('Error al cargar los cupones', error);
+      }
+    );
+  }
+
+
+  toggleSeleccion(codigo: string) {
+    if (this.cuponesSeleccionados.has(codigo)) {
+      this.cuponesSeleccionados.delete(codigo);
+    } else {
+      this.cuponesSeleccionados.add(codigo);
+    }
+  }
+
+  filtrarCupones() {
+    // Crear un mapa para contar los libros por género
+    const categorias = new Map<string, number>();
+
+    this.grupoLibros.forEach(libro => {
+      const categoria = libro.genero;
+      if (categorias.has(categoria)) {
+        categorias.set(categoria, categorias.get(categoria)! + libro.cantidad);
+      } else {
+        categorias.set(categoria, libro.cantidad);
+      }
+    });
+
+    console.log('Categorías de libros:', categorias); // Verifica las categorías de libros
+
+    // Filtrar cupones basados en las categorías
+    this.cupones = this.cupones.filter(cupon => {
+      const cantidadLibros = categorias.get(cupon.tipoGenero) || 0;
+      console.log('Cupon:', cupon, 'Cantidad de libros en la categoría:', cantidadLibros); // Depura aquí
+      return cantidadLibros > 3; // Ajusta el filtro según tus necesidades
+    });
+
+    console.log('Cupones filtrados:', this.cupones); // Verifica los cupones filtrados
+  }
+
+  aplicarCupones() {
+    let descuentoTotal = 0;
+
+    this.cuponesSeleccionados.forEach(codigo => {
+      const cupon = this.cupones.find(c => c.cuponCode === codigo);
+      if (cupon) {
+        const descuento = this.subtotalBD * (cupon.porcentajeDescuento / 100);
+        descuentoTotal += descuento;
+      }
+    });
+
+    this.descuentoBD = descuentoTotal;
+    this.calcularDetallesCarritoBD();
   }
 }
