@@ -1,4 +1,5 @@
 export interface libro {
+    libreriaMaterialId?: string,
     autorLibro?: string,
     titulo: string;
     fechaPublicacion: Date;

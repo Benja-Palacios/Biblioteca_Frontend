@@ -9,7 +9,7 @@ export class CarritoPreviewService {
 
   agregarAlCarrito(libro: libro) {
     const index = this.carrito.findIndex(
-      (item) => item.libro.autorLibro === libro.autorLibro
+      (item) => item.libro.libreriaMaterialId === libro.libreriaMaterialId
     );
     if (index !== -1) {
       this.carrito[index].cantidad += 1; // Incrementar cantidad si el libro ya está en el carrito
@@ -24,7 +24,7 @@ export class CarritoPreviewService {
 
   eliminarLibro(libro: libro) {
     const index = this.carrito.findIndex(
-      (item) => item.libro.autorLibro === libro.autorLibro
+      (item) => item.libro.libreriaMaterialId === libro.libreriaMaterialId
     );
     if (index !== -1) {
       this.carrito.splice(index, 1); // Eliminar el libro del carrito
@@ -37,7 +37,7 @@ export class CarritoPreviewService {
 
   cambiarCantidad(libro: libro, cantidad: number) {
     const index = this.carrito.findIndex(
-      (item) => item.libro.autorLibro === libro.autorLibro
+      (item) => item.libro.libreriaMaterialId === libro.libreriaMaterialId
     );
     if (index !== -1) {
       this.carrito[index].cantidad = cantidad; // Cambiar la cantidad del libro
