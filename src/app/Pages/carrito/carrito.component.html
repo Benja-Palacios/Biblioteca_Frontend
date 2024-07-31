@@ -2,15 +2,164 @@
   <div class="detail-book">
     <div style="display: flex; align-items: center; margin-bottom: 20px">
       <mat-icon>shopping_cart</mat-icon>
-      <h2 style="margin-left: 10px">Carrtio</h2>
+      <h2 style="margin-left: 10px">Carrito Previo</h2>
     </div>
-  </div>
+    <mat-card *ngIf="carrito.length > 0; else noLibros">
+      <mat-card-title>Carrito de Compras</mat-card-title>
+      <mat-card-content>
+        <div *ngFor="let item of carrito" class="card-content-libro">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <!-- Contenedor izquierdo para la imagen -->
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <img
+                src=".../../../../../assets/img/portada.jpeg"
+                alt="Imagen del libro"
+                style="max-width: 100px; max-height: 150px"
+              />
+            </div>
+            <div style="flex: 2; padding: 10px">
+              <h3>{{ item.libro.titulo }}</h3>
+              <p>Género: {{ item.libro.genero }}</p>
+              <p>
+                Fecha de Publicación: {{ item.libro.fechaPublicacion | date }}
+              </p>
+            </div>
+            <!-- Contenedor para el precio y la cantidad -->
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              "
+            >
+              <div style="font-size: 1.5em; font-weight: bold; color: red">
+                ${{ item.libro.precio }}
+              </div>
+              <div style="display: flex; align-items: center; margin-top: 10px">
+                <button mat-button (click)="decrementQuantity(item.libro)">
+                  -
+                </button>
+                <input
+                  type="number"
+                  [value]="item.cantidad"
+                  style="width: 40px; text-align: center"
+                  readonly
+                />
+                <button mat-button (click)="incrementQuantity(item.libro)">
+                  +
+                </button>
+              </div>
+              <button
+                mat-mini-fab
+                aria-label="Eliminar del carrito"
+                (click)="eliminarLibro(item.libro)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px">
+          <button mat-mini-fab color="warn" (click)="vaciarCarrito()">
+            <mat-icon>remove_shopping_cart</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
+    <ng-template #noLibros>
+      <p>No hay libros en el carrito.</p>
+    </ng-template>
+  </div>
 
   <div class="detail-shopping">
     <div class="lottie-container" style="width: 100%; text-align: center">
-      <div style="display: inline-block">
-
+      <div>
+        <!-- Contenedor para los desgloses -->
+        <div
+          style="
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+          "
+        >
+          <h3>Detalle del Pedido</h3>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+            "
+          >
+            <span>Precio Unitario:</span>
+            <span>${{ precioUnitario.toFixed(2) }}</span>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+            "
+          >
+            <span>Cantidad:</span>
+            <span>{{ cantidadTotal }}</span>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+            "
+          >
+            <span>Subtotal:</span>
+            <span>${{ subtotal.toFixed(2) }}</span>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+            "
+          >
+            <span>Descuento:</span>
+            <span>${{ descuento.toFixed(2) }}</span>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+            "
+          >
+            <span>Impuestos:</span>
+            <span>${{ impuestos.toFixed(2) }}</span>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-weight: bold;
+            "
+          >
+            <span>Total:</span>
+            <span>${{ total.toFixed(2) }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

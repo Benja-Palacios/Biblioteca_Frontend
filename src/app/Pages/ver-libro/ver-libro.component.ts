@@ -4,10 +4,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LibroService } from '../../Services/libro.service';
+import { CarritoPreviewService } from '../../Services/carrito-preview.service';
 import { libro } from '../../Models/Libro';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
-
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-ver-libro',
   standalone: true,
@@ -17,6 +19,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatIconModule,
     FormsModule,
     MatBadgeModule,
+    MatDividerModule,
+    MatButtonModule,
   ],
   templateUrl: './ver-libro.component.html',
   styleUrl: './ver-libro.component.css',
@@ -24,10 +28,12 @@ import { MatBadgeModule } from '@angular/material/badge';
 export class VerLibroComponent {
   libros: libro[] = [];
   public searchId: string | null = null;
+  carrito: libro[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private libroService: LibroService
+    private libroService: LibroService,
+    private carritoService: CarritoPreviewService
   ) {}
 
   ngOnInit() {
@@ -54,8 +60,12 @@ export class VerLibroComponent {
         },
       });
     } else {
-      // Si el campo de búsqueda está vacío, cargar todos los autores
       this.obtenerLibros();
     }
+  }
+
+  agregarAlCarrito(libro: libro) {
+    this.carritoService.agregarAlCarrito(libro);
+    console.log(this.carritoService.obtenerCarrito());
   }
 }
