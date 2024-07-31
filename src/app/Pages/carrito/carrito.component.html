@@ -1,11 +1,12 @@
-<div class="mat-elevation-z2 content-cart">
+<!--Session List Productos-->
+<div *ngIf="carrito.length > 0" class="mat-elevation-z2 content-cart">
   <!-- Sección para el carrito previo -->
   <div class="detail-book">
     <div style="display: flex; align-items: center; margin-bottom: 20px">
       <mat-icon>shopping_cart</mat-icon>
       <h2 style="margin-left: 10px">Preview Carrito</h2>
     </div>
-    <mat-card *ngIf="carrito.length > 0; else noLibrosPrevia">
+    <mat-card>
       <mat-card-title>Carrito de Compras</mat-card-title>
       <mat-card-content>
         <div *ngFor="let item of carrito" class="card-content-libro">
@@ -41,10 +42,6 @@
         </div>
       </mat-card-content>
     </mat-card>
-
-    <ng-template #noLibrosPrevia>
-      <p>No hay libros en el carrito.</p>
-    </ng-template>
   </div>
   <div class="detail-shopping">
     <div style="display: flex; align-items: center; margin-bottom: 20px">
@@ -92,6 +89,7 @@
   </div>
 </div>
 
+<!--Buscador-->
 <div class="mat-elevation-z2 content-cart-id">
   <div class="search-container">
     <h1>Hola.. Si tienes un Carrito Registrado puedes buscarlo por ID</h1>
@@ -105,7 +103,7 @@
   </div>
 </div>
 
-
+<!--Session DB Carrito-->
 <div class="mat-elevation-z2 content-cart" *ngIf="mostrarCarritoBD">
   <!-- Nueva sección para mostrar el carrito desde la base de datos -->
   <div class="detail-book">
@@ -114,27 +112,33 @@
       <h2 style="margin-left: 10px">Carrito Registrado</h2>
     </div>
     <mat-card *ngIf="grupoLibros.length > 0; else noLibrosBD">
-      <mat-card-title>Carrito de Compras Registrado</mat-card-title>
-      <mat-card-content>
-        <div *ngFor="let item of grupoLibros" class="card-content-libro">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <!-- Contenedor izquierdo para la imagen -->
-            <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
-              <img src=".../../../../../assets/img/portada.jpeg" alt="Imagen del libro"
-                style="max-width: 100px; max-height: 150px" />
+      <mat-card-content *ngFor="let item of grupoLibros" class="card-content-libro">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <!-- Contenedor izquierdo para la imagen -->
+          <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+            <img src=".../../../../../assets/img/portada.jpeg" alt="Imagen del libro"
+              style="max-width: 100px; max-height: 150px" />
+          </div>
+          <div style="flex: 2; padding: 10px">
+            <h3>{{ item.tituloLibro }}</h3>
+            <p>Género: {{ item.genero }}</p>
+            <p>Fecha de Publicación: {{ item.fechaPublicacion | date }}</p>
+          </div>
+          <!-- Contenedor para el precio y la cantidad -->
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+            <!-- Mostrar solo el precio si es igual al precio total -->
+            <div *ngIf="item.precio !== item.precioTotal"
+              style="font-size: 1.2em; font-weight: bold; color: red; text-decoration: line-through;">
+              $ {{ item.precio | number:'1.2-2' }}
             </div>
-            <div style="flex: 2; padding: 10px">
-              <h3>{{ item.tituloLibro }}</h3>
-              <p>Género: {{ item.genero }}</p>
-              <p>Fecha de Publicación: {{ item.fechaPublicacion | date }}</p>
+            <div *ngIf="item.precio === item.precioTotal" style="font-size: 1.5em; font-weight: bold; color: green;">
+              $ {{ item.precioTotal | number:'1.2-2' }}
             </div>
-            <!-- Contenedor para el precio y la cantidad -->
-            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-              <div style="font-size: 1.5em; font-weight: bold; color: red">$ {{ item.precio }}</div>
-              <div style="display: flex; align-items: center; margin-top: 10px">
-                <input type="number" [value]="item.cantidad" style="width: 40px; text-align: center" readonly />
-              </div>
-              <div style="font-size: 1.2em; font-weight: bold; color: green">$ {{ item.precioTotal }}</div>
+            <div *ngIf="item.precio !== item.precioTotal" style="font-size: 1.5em; font-weight: bold; color: green;">
+              $ {{ item.precioTotal | number:'1.2-2' }}
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 10px">
+              <input type="number" [value]="item.cantidad" style="width: 40px; text-align: center" readonly />
             </div>
           </div>
         </div>
@@ -153,10 +157,6 @@
     </div>
     <div class="lottie-container" style="width: 100%; text-align: center">
       <div style="padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fff;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <span>Precio Unitario:</span>
-          <span>${{ precioUnitarioBD.toFixed(2) }}</span>
-        </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
           <span>Cantidad:</span>
           <span>{{ cantidadTotalBD }}</span>
@@ -185,6 +185,41 @@
         </div>
       </div>
     </div>
-  </div>
 
+    <div class="lottie-container" style="width: 100%; text-align: center">
+      <div style="padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fff;">
+        <div *ngFor="let cupon of cupones"
+          style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <mat-card style="width: 100%;">
+            <mat-card-content class="card-content-libro" style="padding: 0px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <!-- Checkbox para seleccionar el cupón -->
+                <mat-checkbox style="margin-right: 10px;" (change)="toggleSeleccion(cupon.cuponCode)"></mat-checkbox>
+                <!-- Contenedor izquierdo para la imagen -->
+                <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+                  <img src=".../../../../../assets/img/cupon1.png" alt="Imagen del cupón"
+                    style="max-width: 100px; max-height: 150px" />
+                </div>
+                <div style="flex: 2; padding: 10px">
+                  <p>{{ cupon.cuponCode }}</p>
+                  <p>{{ cupon.fechaFinal }}</p>
+                </div>
+                <!-- Contenedor para el descuento -->
+                <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                  {{ cupon.porcentajeDescuento }}%
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center">
+          <!-- Botón para aplicar cupones seleccionados -->
+          <button mat-raised-button color="primary" (click)="aplicarCupones()">
+            Aplicar Cupón
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
