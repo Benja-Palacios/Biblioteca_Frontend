@@ -1,0 +1,38 @@
+.lista-tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .lista-tarjetas mat-card {
+    width: calc(33.33% - 10px);
+    margin-bottom: 20px;
+  }
+
+  .autor-imagen {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  .autor-imagen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: blue; /* Puedes ajustar el color según tu preferencia */
+  }
+  
+  .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    border-width: 2px; /* Ajusta el grosor del borde aquí */
+  }
+  

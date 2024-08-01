@@ -1,0 +1,49 @@
+<mat-card style="width: 70%; margin: 50px auto;">
+    <mat-card-header>
+        <mat-card-title>📚 Todos Los Libros</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="margin-top: 20px; display: flex; align-items: center;">
+            <input matInput [(ngModel)]="searchId" placeholder="Ingrese Nombre"
+                style="flex: 1; margin-right: 8px; height: 40px; border-radius: 5px;">
+            <button mat-icon-button color="accent" (click)="buscarAutor()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </div>
+        <hr>
+        <div class="lista-tarjetas">
+            <ng-container *ngIf="libros.length > 0; else noAutores">
+                <mat-card style="width: 30%;" *ngFor="let libro of libros">
+                    <div class="autor-imagen-container">
+                        <span class="mensaje-no-imagen" style="width: 100%; text-align: center;">
+                            <iframe src="https://lottie.host/embed/2000f452-c05a-4561-825f-a28220e5d3b8/LSGZqOa0HP.json"
+                                width="30%" height="100px" frameborder="0"></iframe>
+                        </span>
+                    </div>
+                    <mat-card-content>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div>
+                                <p>{{ libro.titulo }}</p>
+                                <strong>Genero: </strong><span>{{ libro.genero }}</span><br>
+                                <strong>Fecha de Publicacion </strong><span>{{ libro.fechaPublicacion | date }}</span>
+                                <p style="font-size: 1.5em; font-weight: bold; color: red">${{ libro.precio }}</p>
+                            </div>
+                            <button mat-mini-fab aria-label="" (click)="agregarAlCarrito(libro)">
+                                <mat-icon>add_shopping_cart</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </ng-container>
+            <ng-template #noAutores>
+                <div class="lottie-container" style="width: 100%; text-align: center;">
+                    <div style="display: inline-block;">
+                        <iframe src="https://lottie.host/embed/a6cd3657-88c5-4d12-a3ff-0a4b7f4ebee0/whXZwmu7lv.json"
+                            width="100%" height="250px" frameborder="0"></iframe>
+                    </div>
+                </div>
+
+            </ng-template>
+        </div>
+    </mat-card-content>
+</mat-card>

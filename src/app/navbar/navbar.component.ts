@@ -29,4 +29,7 @@ export class NavbarComponent {
   verCarrito(){
     this.router.navigate(['/detalles/carrito'])
   }
+  verLibros(){
+    this.router.navigate(['/home-book/all'])
+  }
 }
