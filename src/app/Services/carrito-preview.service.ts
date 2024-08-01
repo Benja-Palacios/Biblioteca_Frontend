@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { libro } from '../Models/Libro';
 
 @Injectable({
@@ -6,6 +7,11 @@ import { libro } from '../Models/Libro';
 })
 export class CarritoPreviewService {
   private carrito: { libro: libro; cantidad: number }[] = [];
+  private carritoSubject = new BehaviorSubject<
+    { libro: libro; cantidad: number }[]
+  >(this.carrito);
+
+  carrito$ = this.carritoSubject.asObservable();
 
   agregarAlCarrito(libro: libro) {
     const index = this.carrito.findIndex(
@@ -16,6 +22,7 @@ export class CarritoPreviewService {
     } else {
       this.carrito.push({ libro, cantidad: 1 }); // Agregar nuevo libro con cantidad 1
     }
+    this.carritoSubject.next(this.carrito); // Emitir cambios
   }
 
   obtenerCarrito(): { libro: libro; cantidad: number }[] {
@@ -28,11 +35,13 @@ export class CarritoPreviewService {
     );
     if (index !== -1) {
       this.carrito.splice(index, 1); // Eliminar el libro del carrito
+      this.carritoSubject.next(this.carrito); // Emitir cambios
     }
   }
 
   limpiarCarrito() {
     this.carrito = []; // Vaciar todo el carrito
+    this.carritoSubject.next(this.carrito); // Emitir cambios
   }
 
   cambiarCantidad(libro: libro, cantidad: number) {
@@ -41,6 +50,7 @@ export class CarritoPreviewService {
     );
     if (index !== -1) {
       this.carrito[index].cantidad = cantidad; // Cambiar la cantidad del libro
+      this.carritoSubject.next(this.carrito); // Emitir cambios
     }
   }
 

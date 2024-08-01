@@ -1,38 +1,43 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../Services/auth.service';  
-import { CommonModule } from '@angular/common';  
+import { AuthService } from '../Services/auth.service';
+import { CarritoPreviewService } from '../Services/carrito-preview.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Subscription } from 'rxjs';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatButtonModule, MatToolbarModule, MatIconModule],
+  imports: [CommonModule, MatMenuModule, MatButtonModule, MatToolbarModule, MatIconModule, MatBadgeModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   userRole: string | null = null;
-  private roleSubscription: Subscription | undefined;
+  cantidadLibros: number = 0;
+  private carritoSubscription: Subscription | undefined;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private carritoService: CarritoPreviewService
   ) {}
 
   ngOnInit() {
-    this.roleSubscription = this.authService.getUserRoleObservable().subscribe(role => {
-      this.userRole = role;
+    this.userRole = this.authService.getUserRole();
+    this.carritoSubscription = this.carritoService.carrito$.subscribe(carrito => {
+      this.cantidadLibros = carrito.reduce((total, item) => total + item.cantidad, 0);
     });
   }
 
   ngOnDestroy() {
-    if (this.roleSubscription) {
-      this.roleSubscription.unsubscribe();
+    if (this.carritoSubscription) {
+      this.carritoSubscription.unsubscribe();
     }
   }
 
@@ -62,5 +67,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   
   logout() {
     this.authService.logout();
+    this.router.navigate(['/login-home-rol']);
   }
 }

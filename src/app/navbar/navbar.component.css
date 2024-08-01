@@ -9,9 +9,12 @@
 }
 
 .spacer {
-  flex: 1 1 auto; /* Espaciador flexible para empujar los botones hacia la derecha */
+  flex: 1 1 auto; 
 }
 
 .button-gap {
   margin-left: 8px; /* Espacio entre botones */
+}
+.cursor-style{
+  cursor: pointer;
 }

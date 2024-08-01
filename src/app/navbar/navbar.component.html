@@ -1,5 +1,5 @@
 <mat-toolbar class="fixed-toolbar">
-  <span>Biblioteca</span>
+  <span class="cursor-style" (click)="verLibros()">Biblioteca</span>
   <span class="spacer"></span>
   <div>
     <button mat-raised-button color="accent" [matMenuTriggerFor]="autorMenu" *ngIf="userRole === 'Administrador'">
@@ -18,7 +18,7 @@
       <mat-icon>settings</mat-icon> Cupones
     </button>
     <span class="button-gap"></span>
-    <button mat-raised-button color="accent" (click)="verCarrito()" *ngIf="userRole === 'Cliente'">
+    <button mat-raised-button color="accent" [matBadge]="cantidadLibros" matBadgeColor="primary" (click)="verCarrito()">
       <mat-icon>shopping_cart</mat-icon> Carrito
     </button>
     <span class="button-gap"></span>
