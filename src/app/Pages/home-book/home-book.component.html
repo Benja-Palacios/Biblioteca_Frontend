@@ -15,10 +15,7 @@
             <ng-container *ngIf="libros.length > 0; else noAutores">
                 <mat-card style="width: 30%;" *ngFor="let libro of libros">
                     <div class="autor-imagen-container">
-                        <span class="mensaje-no-imagen" style="width: 100%; text-align: center;">
-                            <iframe src="https://lottie.host/embed/2000f452-c05a-4561-825f-a28220e5d3b8/LSGZqOa0HP.json"
-                                width="30%" height="100px" frameborder="0"></iframe>
-                        </span>
+                        <img src="../../../assets/img/lomo2.png" class="autor-imagen">
                     </div>
                     <mat-card-content>
                         <div style="display: flex; align-items: center; justify-content: space-between;">
